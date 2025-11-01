@@ -1,0 +1,102 @@
+server:
+  port: 8092
+  servlet:
+    context-path: /api/promociones
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: true
+    include-stacktrace: ALWAYS
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  application:
+    name: mcsv-promocion
+
+  datasource:
+    url: jdbc:mariadb://40.233.27.238:3307/promotion_db
+    username: app_user
+    password: appSa456.
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    locations: classpath:/db/migration
+    table: schema_version_promocion
+    validate-on-migrate: false
+
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+
+  kafka:
+    admin:
+      auto-create: true
+    bootstrap-servers:
+      #- localhost:9092
+      - b-1.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+      - b-2.kafkap2sa.uqqw98.c10.kafka.us-east-1.amazonaws.com:9094
+    consumer:
+      group-id: promociones-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        security.protocol: SSL
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        security.protocol: SSL
+
+springdoc:
+  api-docs:
+    path: /api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  show-actuator: false
+
+logging:
+  level:
+    org.apache.kafka: WARN
+    com.sa.promocion: DEBUG
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-service:8765/
+    register-with-eureka: true
+    fetch-registry: true
