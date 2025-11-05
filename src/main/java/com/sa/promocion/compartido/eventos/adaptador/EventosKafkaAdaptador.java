@@ -3,10 +3,20 @@ package com.sa.promocion.compartido.eventos.adaptador;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sa.promocion.compartido.eventos.dto.PromocionEventoDTO;
 import com.sa.promocion.compartido.eventos.puertos.salida.NotificarPromocionOutputPort;
-
+import com.example.comun.DTO.promocion.*;
+import com.sa.promocion.promocion.aplicacion.dto.FiltroPromocionDTO;
 import com.sa.promocion.promocion.dominio.Promocion;
+import com.sa.promocion.promocion.dominio.objetovalor.TipoPromocion;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class EventosKafkaAdaptador implements NotificarPromocionOutputPort {
@@ -18,6 +28,8 @@ public class EventosKafkaAdaptador implements NotificarPromocionOutputPort {
         this.kafkaTemplate = kafkaTemplate;
         this.objectMapper = objectMapper;
     }
+
+
 
     @Override
     public void notificarPromocionCreada(Promocion promocion) {
