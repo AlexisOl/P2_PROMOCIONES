@@ -47,7 +47,7 @@ public class ConsultaPromocionListener {
 
             System.out.println("Procesando consulta de promoción - CorrelationId: " + correlationId);
             System.out.println("Filtros: cineId=" + consulta.getCineId() +
-                    ", tipo=" + consulta.getTipo());
+                    ", sala=" + consulta.getSalaId() + " peliculaId: " + consulta.getPeliculaId() + " clienteId: " + consulta.getClienteId());
 
             // Construir filtro para buscar la mejor promoción
             FiltroPromocionDTO filtro = new FiltroPromocionDTO();
@@ -57,13 +57,13 @@ public class ConsultaPromocionListener {
             filtro.setClienteId(consulta.getClienteId());
 
             // Convertir tipo String a TipoPromocion enum
-            if (consulta.getTipo() != null) {
-                try {
-                    filtro.setTipo(TipoPromocion.valueOf(consulta.getTipo()));
-                } catch (IllegalArgumentException e) {
-                    System.err.println("Tipo de promoción inválido: " + consulta.getTipo());
-                }
-            }
+//            if (consulta.getTipo() != null) {
+//                try {
+//                    filtro.setTipo(TipoPromocion.valueOf(consulta.getTipo()));
+//                } catch (IllegalArgumentException e) {
+//                    System.err.println("Tipo de promoción inválido: " + consulta.getTipo());
+//                }
+//            }
 
             filtro.setActiva(true); // Solo promociones activas
             filtro.setFecha(LocalDate.now()); // Solo vigentes hoy

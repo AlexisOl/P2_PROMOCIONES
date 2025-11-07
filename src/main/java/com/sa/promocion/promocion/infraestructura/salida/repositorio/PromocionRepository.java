@@ -22,12 +22,12 @@ public interface PromocionRepository extends JpaRepository<PromocionEntity, UUID
     List<PromocionEntity> findByActiva(Boolean activa);
 
     @Query("SELECT p FROM PromocionEntity p WHERE " +
-            "(:cineId IS NULL OR p.cineId = :cineId) AND " +
-            "(:salaId IS NULL OR p.salaId = :salaId) AND " +
-            "(:peliculaId IS NULL OR p.peliculaId = :peliculaId) AND " +
-            "(:clienteId IS NULL OR p.clienteId = :clienteId) AND " +
-            "(:tipo IS NULL OR p.tipo = :tipo) AND " +
-            "(:activa IS NULL OR p.activa = :activa) AND " +
+            "(:cineId IS NULL OR p.cineId = :cineId) OR " +
+            "(:salaId IS NULL OR p.salaId = :salaId) OR " +
+            "(:peliculaId IS NULL OR p.peliculaId = :peliculaId) OR " +
+            "(:clienteId IS NULL OR p.clienteId = :clienteId) OR " +
+            "(:tipo IS NULL OR p.tipo = :tipo) OR " +
+            "(:activa IS NULL OR p.activa = :activa) OR " +
             "(:fecha IS NULL OR (p.fechaInicio <= :fecha AND p.fechaFin >= :fecha))")
     List<PromocionEntity> buscarConFiltros(
             @Param("cineId") UUID cineId,
