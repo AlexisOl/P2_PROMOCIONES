@@ -64,7 +64,12 @@ public class EventosKafkaAdaptador implements NotificarPromocionOutputPort {
             );
 
             String mensaje = objectMapper.writeValueAsString(evento);
-            kafkaTemplate.send(topic, mensaje);
+            kafkaTemplate.send(topic, mensaje)
+                    .thenAccept(result -> System.out.println(" Evento enviado a Kafka: " + topic))
+                    .exceptionally(ex -> {
+                        System.err.println(" Error al enviar evento Kafka: " + ex.getMessage());
+                        return null;
+                    });
             System.out.println("Evento enviado: " + topic + " - " + accion);
         } catch (Exception e) {
             System.err.println("Error al enviar evento de promoción: " + e.getMessage());
