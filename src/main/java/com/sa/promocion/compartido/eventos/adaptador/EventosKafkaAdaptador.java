@@ -39,12 +39,12 @@ public class EventosKafkaAdaptador implements NotificarPromocionOutputPort {
 
     @Override
     public void notificarPromocionActualizada(Promocion promocion) {
-        enviarEvento(promocion, "ACTUALIZADA", "promocion-actualizada");
+       // enviarEvento(promocion, "ACTUALIZADA", "promocion-actualizada");
     }
 
     @Override
     public void notificarPromocionDesactivada(Promocion promocion) {
-        enviarEvento(promocion, "DESACTIVADA", "promocion-desactivada");
+        //enviarEvento(promocion, "DESACTIVADA", "promocion-desactivada");
     }
 
     @Async
