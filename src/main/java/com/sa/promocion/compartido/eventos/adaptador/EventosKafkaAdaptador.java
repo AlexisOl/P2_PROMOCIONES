@@ -14,6 +14,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -46,7 +47,8 @@ public class EventosKafkaAdaptador implements NotificarPromocionOutputPort {
         enviarEvento(promocion, "DESACTIVADA", "promocion-desactivada");
     }
 
-    private void enviarEvento(Promocion promocion, String accion, String topic) {
+    @Async
+    protected void enviarEvento(Promocion promocion, String accion, String topic) {
         try {
             PromocionEventoDTO evento = new PromocionEventoDTO(
                     promocion.getPromocionId(),
